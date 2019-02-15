@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Rock Paper Scissors</title>
+
+  <link rel="stylesheet" type="text/css" href="css/style.css">
+</head>
+<body>
+
+    <div class="container">
+
+        <h1>Choose wisely...</h1>
+        
+        <div class="buttons">
+            <div class="one-button">
+                <p class="rock">ROCK</p>
+            </div>
+            <div class="one-button">
+                <p class="scissor">SCISSOR</p>
+            </div>
+            <div class="one-button">
+                <p class="paper">PAPER</p>
+            </div>
+
+        </div>
+
+        <div class="play">
+            <button id="start">Play!</button>
+        </div>
+        
+        
+        
+
+    </div>
+  
+  <script>
+    function selector(button) {
+        if(button.classList.contains('selected')){
+            button.classList.remove('selected');
+        }
+        else{
+            button.classList.add('selected');
+        }
+
+        buttons.forEach( oldButton => {
+            if(oldButton !== button){
+                if(oldButton.classList.contains('selected')){
+                    oldButton.classList.remove('selected');
+                }
+            }
+        });      
+    }
+
+    const buttons = document.querySelectorAll('.one-button');
+    buttons.forEach( button => button.addEventListener('click', function(){selector(button);}));
+
+    let playerSelection;
+    let score;
+
+    var idx=0;
+
+    function computerPlay () {
+        let number = Math.floor(Math.random() * 3);
+
+        switch(number) {
+            case 0:
+                return "ROCK";
+            case 1:
+                return "PAPER";
+            case 2:
+                return "SCISSOR"
+        }
+    }
+
+    function game() {
+        score = 0;
+
+        function playRound(playerSelection, computerSelection){
+            playerSelection = playerSelection.toUpperCase();
+
+            alert("Your choice: " + playerSelection);
+            alert("Computer choice: " + computerSelection);
+
+            switch(playerSelection){
+                case "ROCK":
+                    if(computerSelection === "ROCK"){
+                        alert("Game tie! Both are rocks...");
+                        return 0; 
+                    }
+                    else if (computerSelection === "PAPER"){
+                        alert("You lose! Paper beats rock...");
+                        return -1;
+                    }
+                    else if (computerSelection === "SCISSOR"){
+                        alert("You win! Rock beats scissor...");
+                        return 1;
+                    }
+                
+                case "PAPER":
+                    if(computerSelection === "ROCK"){
+                        alert("You win! Paper beats rock...");
+                        return 1;
+                    }
+                    else if (computerSelection === "PAPER"){
+                        alert("Game tie! Both are papers...");
+                        return 0;
+                    }
+                    else if (computerSelection === "SCISSOR"){
+                        alert("You lose! Scissor beats paper...");
+                        return -1;
+                    }
+
+                case "SCISSOR":
+                    if(computerSelection === "ROCK"){
+                        alert("You lose! Rock beats scissor...");
+                        return -1;
+                    }
+                    else if (computerSelection === "PAPER"){
+                        alert("You win! Scissor beats paper...");
+                        return 1;
+                    }
+                    else if (computerSelection === "SCISSOR"){
+                        alert("Game tie! Both are scissors...");
+                        return 0;
+                    }
+            }
+        }
+
+        
+        const play = document.getElementById('start');
+        play.addEventListener('click', function(){
+            let selButton = document.querySelector('.selected');
+            let choiceElement = selButton.firstElementChild;
+            playerSelection = choiceElement.className;
+            console.log(choiceElement.className);
+
+            score += playRound(playerSelection, computerPlay());
+
+            idx++;
+        });
+    }
+
+    game();
+
+    if(idx==5){
+        if(score > 0) {
+            alert("You win! Your score is: " + score );
+        } else if (score < 0) {
+            alert("You lose! Your score is: " + score );
+        } else {
+            alert("Game tie! Your score is: " + score );
+        }
+        idx = 0;
+    }
+
+
+  </script>
+</body>
+</html>
